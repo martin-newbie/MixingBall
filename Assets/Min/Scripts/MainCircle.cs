@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class MainCircle : MonoBehaviour
 {
@@ -34,7 +35,22 @@ public class MainCircle : MonoBehaviour
 
     public void GameOver()
     {
+        StartCoroutine(spriteFadeout(2f));
+        PointEffectColor(Color.black);
 
+        IEnumerator spriteFadeout(float duration)
+        {
+            float timer = 0f;
+            Vector2 originSize = sprite.transform.localScale;
+
+            while (timer <= duration)
+            {
+                sprite.transform.localScale = Vector2.Lerp(originSize, Vector2.zero, 1 - Mathf.Pow(1 - (timer / duration), 5));
+
+                timer += Time.deltaTime;
+                yield return null;
+            }
+        }
     }
 
     int comboCount = 0;
@@ -65,19 +81,20 @@ public class MainCircle : MonoBehaviour
             CirclePop();
 
             PointEffectColor(curColor);
-            pointEffect.Play();
-            ringEffect.Play();
         }
 
-        void PointEffectColor(Color targetColor)
-        {
-            var pointMain = pointEffect.main;
-            var ringMain = ringEffect.main;
-
-            pointMain.startColor = targetColor;
-            ringMain.startColor = targetColor;
-        }
     }
 
 
+    void PointEffectColor(Color targetColor)
+    {
+        var pointMain = pointEffect.main;
+        var ringMain = ringEffect.main;
+
+        pointMain.startColor = targetColor;
+        ringMain.startColor = targetColor;
+
+        pointEffect.Play();
+        ringEffect.Play();
+    }
 }

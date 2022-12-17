@@ -85,9 +85,18 @@ public class InGameManager : MonoBehaviour
         }
 
         mainCircle.GameOver();
+        removeAllBalls();
 
         yield break;
 
+        void removeAllBalls()
+        {
+            var balls = FindObjectsOfType<Ball>();
+            foreach (var item in balls)
+            {
+                Destroy(item.gameObject);
+            }
+        }
         bool getBallSpawnChance()
         {
             return Random.Range(0f, 100f) <= 0.5f;
