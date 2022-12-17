@@ -17,6 +17,6 @@ public class SceneLoadManager : MonoBehaviour
     {
         canvasAnim.SetTrigger("Start");
         yield return new WaitForSeconds(1.5f);
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(2);
     }
 }

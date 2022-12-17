@@ -39,6 +39,8 @@ public class InGameManager : MonoBehaviour
 
     Coroutine mainLogic;
 
+    [SerializeField] AudioClip BGM_clip;
+
     void Start()
     {
         mainLogic = StartCoroutine(GameMainLogic());
@@ -72,6 +74,7 @@ public class InGameManager : MonoBehaviour
         mainCircle.ChangeColor(Color.white);
         curHp = 100f;
         float delay = 0f;
+        SoundManager.instance.BGMPlay(BGM_clip);
 
         while (isGameActive)
         {
