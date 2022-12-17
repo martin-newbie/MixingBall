@@ -26,6 +26,9 @@ public class MainCircle : MonoBehaviour
     Color curColor;
     public Color[] randomColors;
 
+    [SerializeField] AudioClip ball_clip;
+    [SerializeField] AudioClip shield_clip;
+
     void Start()
     {
         sprite = GetComponent<SpriteRenderer>();
@@ -139,6 +142,7 @@ public class MainCircle : MonoBehaviour
         }
         void getBall()
         {
+            SoundManager.instance.SFXPlay("ball", ball_clip);
             comboCount++;
             isCombo = true;
             playEffect();
@@ -151,6 +155,7 @@ public class MainCircle : MonoBehaviour
 
     IEnumerator BarrierTime()
     {
+        SoundManager.instance.SFXPlay("shield", shield_clip);
         isBarrier = true;
 
         barrierEffect.Play();

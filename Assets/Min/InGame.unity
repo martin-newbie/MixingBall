@@ -5316,6 +5316,10 @@ MonoBehaviour:
   - {r: 0.8623762, g: 0, b: 1, a: 1}
   - {r: 1, g: 0, b: 0.7741265, a: 1}
   - {r: 1, g: 0, b: 0.41844082, a: 1}
+  ball_clip: {fileID: 8300000, guid: 4f3346663274a3641af83fd8f97be99b, type: 3}
+  shield_clip: {fileID: 8300000, guid: 6a0a9073ceb327c409f3817e581c43cd, type: 3}
+  Clear_clip: {fileID: 0}
+  Fever_clip: {fileID: 0}
   isFever: 0
 --- !u!1 &360947739
 GameObject:
@@ -10214,6 +10218,7 @@ MonoBehaviour:
   ballPrefab: {fileID: 92787150437928388, guid: a0610098abdf9b34ba46031490210beb, type: 3}
   ballEffect: {fileID: 1836883510}
   isGameActive: 0
+  BGM_clip: {fileID: 8300000, guid: ea00cee56b9f7c04fbad5b70047734ce, type: 3}
   curHp: 0
 --- !u!4 &535740411
 Transform:

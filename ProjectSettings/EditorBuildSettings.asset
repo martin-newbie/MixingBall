@@ -7,6 +7,9 @@ EditorBuildSettings:
   m_Scenes:
   - enabled: 1
     path: Assets/Lee/Start.unity
+    guid: 40cccafe4b0c4d441b51c38ecd88e6c8
+  - enabled: 1
+    path: Assets/Lee/Title.unity
     guid: 7756010b5bbbc594aa790f96aede4911
   - enabled: 1
     path: Assets/Min/InGame.unity
