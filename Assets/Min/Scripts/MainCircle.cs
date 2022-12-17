@@ -32,6 +32,11 @@ public class MainCircle : MonoBehaviour
         anim.SetTrigger("pop");
     }
 
+    public void GameOver()
+    {
+
+    }
+
     int comboCount = 0;
     bool isCombo = false;
     private void OnTriggerEnter2D(Collider2D collision)
@@ -59,18 +64,18 @@ public class MainCircle : MonoBehaviour
         {
             CirclePop();
 
-            PointEffectColor();
+            PointEffectColor(curColor);
             pointEffect.Play();
             ringEffect.Play();
         }
 
-        void PointEffectColor()
+        void PointEffectColor(Color targetColor)
         {
             var pointMain = pointEffect.main;
             var ringMain = ringEffect.main;
 
-            pointMain.startColor = curColor;
-            ringMain.startColor = curColor;
+            pointMain.startColor = targetColor;
+            ringMain.startColor = targetColor;
         }
     }
 

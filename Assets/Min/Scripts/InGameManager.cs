@@ -79,8 +79,12 @@ public class InGameManager : MonoBehaviour
                 var combined = GetCombinedColor(randBool(randList), randBool(randList), randBool(randList));
                 SpawnBall(combined, (bool)ChooseOne(true, false));
             }
+
+            if (curHp <= 0) break;
             yield return null;
         }
+
+        mainCircle.GameOver();
 
         yield break;
 
