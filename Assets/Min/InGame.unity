@@ -5318,8 +5318,6 @@ MonoBehaviour:
   - {r: 1, g: 0, b: 0.41844082, a: 1}
   ball_clip: {fileID: 8300000, guid: 4f3346663274a3641af83fd8f97be99b, type: 3}
   shield_clip: {fileID: 8300000, guid: 6a0a9073ceb327c409f3817e581c43cd, type: 3}
-  Clear_clip: {fileID: 0}
-  Fever_clip: {fileID: 0}
   isFever: 0
 --- !u!1 &360947739
 GameObject:

@@ -65,7 +65,7 @@ public class GameOverCanvas : MonoBehaviour
 
     public void MainMenu()
     {
-        SceneManager.LoadScene("Start");
+        SceneManager.LoadScene("Title");
     }
 
 }
