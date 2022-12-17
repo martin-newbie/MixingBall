@@ -11,9 +11,6 @@ public class ScrollRectBtn : Button {
 
     protected override void OnEnable()
     {
-#if !UNITY_EDITOR
-        isWait = false;
-#endif
         transform.localScale = Vector3.one;
     }
 
@@ -38,7 +35,7 @@ public class ScrollRectBtn : Button {
     {
         base.OnPointerExit(eventData);
     }
-#else
+#elif UNITY_ANDROID
 	Vector2 pointV;
 	float sensitive = 1000f;
     private Coroutine waitCoroutine;

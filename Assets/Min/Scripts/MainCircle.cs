@@ -70,6 +70,17 @@ public class MainCircle : MonoBehaviour
     bool isBarrier = false;
     [HideInInspector] public bool isFever = false;
 
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha0))
+            StartCoroutine(BarrierTime());
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+            StartCoroutine(FeverTime());
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+            ClearAllBalls();
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("ball"))
@@ -98,7 +109,7 @@ public class MainCircle : MonoBehaviour
 
             if (isRandomEvent(20f))
                 StartCoroutine(BarrierTime());
-            else if (isRandomEvent(100f))
+            else if (isRandomEvent(5f))
                 StartCoroutine(FeverTime());
             else if (isRandomEvent(10f))
                 ClearAllBalls();
