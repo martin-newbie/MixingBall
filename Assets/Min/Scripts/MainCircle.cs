@@ -32,14 +32,28 @@ public class MainCircle : MonoBehaviour
         anim.SetTrigger("pop");
     }
 
+    int comboCount = 0;
+    bool isCombo = false;
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("ball") && collision.GetComponent<Ball>().thisColor == curColor)
+        if (collision.CompareTag("ball"))
         {
+
+            if(collision.GetComponent<Ball>().thisColor != curColor)
+            {
+                comboCount = 0;
+                isCombo = false;
+                return;
+            }
+
+            comboCount++;
+            isCombo = true;
+
             CirclePop();
 
             PointEffectColor();
             pointEffect.Play();
+            ringEffect.Play();
         }
 
         void PointEffectColor()
