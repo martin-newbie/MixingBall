@@ -65,6 +65,7 @@ public class GameOverCanvas : MonoBehaviour
 
     public void MainMenu()
     {
+        SoundManager.instance.BGM.clip = null;
         SceneManager.LoadScene("Title");
     }
 
