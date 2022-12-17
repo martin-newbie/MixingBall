@@ -43,12 +43,20 @@ public class MainCircle : MonoBehaviour
             {
                 comboCount = 0;
                 isCombo = false;
+                InGameManager.Instance.curHp -= 1f;
                 return;
             }
 
             comboCount++;
             isCombo = true;
 
+            InGameManager.Instance.GetScore(5);
+            PlayEffect();
+        }
+
+
+        void PlayEffect()
+        {
             CirclePop();
 
             PointEffectColor();

@@ -25,10 +25,12 @@ public class InGameManager : MonoBehaviour
     }
 
     public MainCircle mainCircle;
+    public HpCanvas hpCanvas;
     public Ball ballPrefab;
 
     bool red, blue, green;
     bool isGameActive;
+    int score;
 
     float ballDuration = 4f;
 
@@ -39,6 +41,7 @@ public class InGameManager : MonoBehaviour
         mainLogic = StartCoroutine(GameMainLogic());
     }
 
+    public float curHp;
     IEnumerator GameMainLogic()
     {
         isGameActive = true;
@@ -49,12 +52,21 @@ public class InGameManager : MonoBehaviour
 
         List<bool> randList;
 
+        float timer = 0f;
+        while (timer <= 100f)
+        {
+            hpCanvas.SetHPGauge(timer / 100f);
+            timer += (100f / 3f) * Time.deltaTime;
+            yield return null;
+        }
 
         yield return null;
         mainCircle.ChangeColor(Color.black);
-
+        curHp = 100f;
         while (isGameActive)
         {
+            hpCanvas.SetHPGauge(curHp / 100f);
+
             if (getBallSpawnChance())
             {
                 randList = new List<bool>(3)
@@ -94,6 +106,12 @@ public class InGameManager : MonoBehaviour
 
         mainCircle.ChangeColor(GetCombinedColor(red, blue, green));
     }
+    public void GetScore(int increase)
+    {
+        score += increase;
+        UIManager.Instance.ChangeScore(score);
+    }
+
     Ball SpawnBall(Color color, bool isHorizontal)
     {
         if (color == Color.black) return null;

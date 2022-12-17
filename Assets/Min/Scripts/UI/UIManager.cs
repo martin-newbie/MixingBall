@@ -6,7 +6,25 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
 
+    private static UIManager instance = null;
+    public static UIManager Instance => instance;
+
+    private void Awake()
+    {
+        instance = this;
+    }
+
     public Image[] outlineButtons;
+
+    [Header("Score Text")]
+    public Text scoreText;
+    public Animator scoreTextPop;
+
+    public void ChangeScore(int score)
+    {
+        scoreText.text = string.Format("{0:0,##}", score);
+        scoreTextPop.SetTrigger("pop");
+    }
 
     public void ChangeRed()
     {
