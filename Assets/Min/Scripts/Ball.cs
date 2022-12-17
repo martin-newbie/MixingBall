@@ -7,13 +7,13 @@ public class Ball : MonoBehaviour
     [HideInInspector] public Color thisColor;
     SpriteRenderer sprite;
 
-    public void Init(Transform target, Color color, float duration = 4f)
+    public void Init(Vector3 target, Color color, float duration = 4f)
     {
         sprite = GetComponent<SpriteRenderer>();
 
         thisColor = color;
         sprite.color = thisColor;
-        StartCoroutine(MoveLogic(target.position, duration));
+        StartCoroutine(MoveLogic(target, duration));
     }
 
     IEnumerator MoveLogic(Vector3 target, float duration) 

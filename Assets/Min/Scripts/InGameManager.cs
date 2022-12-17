@@ -72,13 +72,19 @@ public class InGameManager : MonoBehaviour
         isGameActive = true;
         mainCircle.ChangeColor(Color.white);
         curHp = 100f;
+        float delay = 0f;
+
         while (isGameActive)
         {
             if (!mainCircle.isFever)
                 SetGauge(curHp / 100f);
 
-            if (getBallSpawnChance())
+            delay += Time.deltaTime;
+
+            if (getBallSpawnChance() && delay >= 0.1f)
             {
+                delay = 0f;
+
                 randList = new List<bool>(3)
                 {
                     true,
@@ -110,7 +116,7 @@ public class InGameManager : MonoBehaviour
         }
         bool getBallSpawnChance()
         {
-            return Random.Range(0f, 100f) <= 5f;
+            return Random.Range(0f, 100f) <= 0.5f;
         }
         bool randBool(List<bool> list)
         {
@@ -153,8 +159,13 @@ public class InGameManager : MonoBehaviour
             spawnPos = new Vector2((float)ChooseOne(-xHalf, xHalf), Random.Range(-yHalf, yHalf));
         }
 
+        float degree = Mathf.Atan2(spawnPos.y, spawnPos.x) * (180f / Mathf.PI);
+        float cos = Mathf.Cos(degree * Mathf.Deg2Rad);
+        float sin = Mathf.Sin(degree * Mathf.Deg2Rad);
+        Vector2 addPos = new Vector2(cos * 1.25f, sin * 1.25f);
+
         Ball ballTmp = Instantiate(ballPrefab, spawnPos, Quaternion.identity);
-        ballTmp.Init(mainCircle.transform, color, ballDuration);
+        ballTmp.Init(mainCircle.transform.position + (Vector3)addPos, color, ballDuration);
         return ballTmp;
 
     }
