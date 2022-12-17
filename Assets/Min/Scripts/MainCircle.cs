@@ -24,6 +24,7 @@ public class MainCircle : MonoBehaviour
     Animator anim;
 
     Color curColor;
+    public Color[] randomColors;
 
     void Start()
     {
@@ -166,11 +167,11 @@ public class MainCircle : MonoBehaviour
         sprite.color = Color.black;
 
         float timer, duration;
-        timer = duration = 10f;
+        timer = duration = 5f;
 
         while (timer >= 0f)
         {
-            InGameManager.Instance.SetGauge(timer / duration, true).SetGaugeColor(Color.white);
+            InGameManager.Instance.SetGauge(timer / duration, true).SetGaugeColor(randomColors[Random.Range(0, randomColors.Length)]);
             timer -= Time.deltaTime;
             yield return null;
         }
