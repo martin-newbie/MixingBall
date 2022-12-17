@@ -3,11 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
+public enum ItemType
+{
+    BARRIER,
+    FEVER,
+    BOMB,
+}
+
 public class MainCircle : MonoBehaviour
 {
 
     [SerializeField] ParticleSystem pointEffect;
     [SerializeField] ParticleSystem ringEffect;
+    [SerializeField] ParticleSystem barrierEffect;
+    [SerializeField] ParticleSystem ignoreEffect;
+
+    [SerializeField] ClearBallsEffect clearBalls;
 
     SpriteRenderer sprite;
     Animator anim;
@@ -23,6 +34,7 @@ public class MainCircle : MonoBehaviour
     public void ChangeColor(Color color)
     {
         curColor = color;
+        if (isFever) return;
 
         CirclePop();
         sprite.color = curColor;
@@ -55,34 +67,109 @@ public class MainCircle : MonoBehaviour
 
     int comboCount = 0;
     bool isCombo = false;
+    bool isBarrier = false;
+    [HideInInspector] public bool isFever = false;
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("ball"))
         {
-
-            if(collision.GetComponent<Ball>().thisColor != curColor)
+            if (isFever)
             {
+                getBall();
+                return;
+            }
+
+            if (collision.GetComponent<Ball>().thisColor != curColor)
+            {
+                if (isBarrier)
+                {
+                    playIgnoreEffect(collision.GetComponent<Ball>().thisColor);
+                    return;
+                }
+
                 comboCount = 0;
                 isCombo = false;
                 InGameManager.Instance.curHp -= 1f;
                 return;
             }
 
+            getBall();
+
+            if (isRandomEvent(20f))
+                StartCoroutine(BarrierTime());
+            else if (isRandomEvent(100f))
+                StartCoroutine(FeverTime());
+            else if (isRandomEvent(10f))
+                ClearAllBalls();
+        }
+
+        bool isRandomEvent(float chance)
+        {
+            return Random.Range(0f, 100f) < chance;
+        }
+        void playIgnoreEffect(Color color)
+        {
+            var main = ignoreEffect.main;
+            main.startColor = color;
+
+            ignoreEffect.Play();
+        }
+        void playEffect()
+        {
+            CirclePop();
+
+            if (!isFever)
+                PointEffectColor(curColor);
+            else
+                PointEffectColor(sprite.color);
+        }
+        void getBall()
+        {
             comboCount++;
             isCombo = true;
 
             InGameManager.Instance.GetScore(5);
-            PlayEffect();
+            playEffect();
         }
+    }
 
+    IEnumerator BarrierTime()
+    {
+        isBarrier = true;
 
-        void PlayEffect()
+        barrierEffect.Play();
+        yield return new WaitForSeconds(0.6f);
+
+        isBarrier = false;
+        yield return null;
+    }
+
+    IEnumerator FeverTime()
+    {
+        isFever = true;
+
+        sprite.color = Color.black;
+
+        float timer, duration;
+        timer = duration = 10f;
+
+        while (timer >= 0f)
         {
-            CirclePop();
-
-            PointEffectColor(curColor);
+            InGameManager.Instance.SetGauge(timer / duration, true).SetGaugeColor(Color.white);
+            timer -= Time.deltaTime;
+            yield return null;
         }
+        isFever = false;
 
+        ChangeColor(curColor);
+        yield break;
+    }
+
+    void ClearAllBalls()
+    {
+        var effect = Instantiate(clearBalls, Vector3.zero, Quaternion.identity);
+        effect.Init();
     }
 
 

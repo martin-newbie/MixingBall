@@ -22,24 +22,30 @@ public class UIManager : MonoBehaviour
 
     public void ChangeScore(int score)
     {
-        scoreText.text = string.Format("{0:0,##}", score);
+        scoreText.text = string.Format("{0:#,##0}", score);
         scoreTextPop.SetTrigger("pop");
     }
 
     public void ChangeRed()
     {
+        if (!InGameManager.Instance.isGameActive) return;
+
         InGameManager.Instance.ChangeColor(true, false, false);
         SetOutlineActive(0);
     }
 
     public void ChangeBlue()
     {
+        if (!InGameManager.Instance.isGameActive) return;
+
         InGameManager.Instance.ChangeColor(false, true, false);
         SetOutlineActive(1);
     }
 
     public void ChangeGreen()
     {
+        if (!InGameManager.Instance.isGameActive) return;
+
         InGameManager.Instance.ChangeColor(false, false, true);
         SetOutlineActive(2);
     }

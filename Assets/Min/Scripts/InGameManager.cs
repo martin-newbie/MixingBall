@@ -26,10 +26,13 @@ public class InGameManager : MonoBehaviour
 
     public MainCircle mainCircle;
     public HpCanvas hpCanvas;
+    public GameOverCanvas gameoverCanvas;
     public Ball ballPrefab;
 
+    public ParticleSystem ballEffect;
+
+    public bool isGameActive;
     bool red, blue, green;
-    bool isGameActive;
     int score;
 
     float ballDuration = 4f;
@@ -42,10 +45,14 @@ public class InGameManager : MonoBehaviour
     }
 
     public float curHp;
+
+    public HpCanvas SetGauge(float fill, bool isHp = false)
+    {
+        return hpCanvas.SetHPGauge(fill, isHp);
+    }
+
     IEnumerator GameMainLogic()
     {
-        isGameActive = true;
-
         red = false;
         blue = false;
         green = false;
@@ -55,17 +62,20 @@ public class InGameManager : MonoBehaviour
         float timer = 0f;
         while (timer <= 100f)
         {
-            hpCanvas.SetHPGauge(timer / 100f);
+            SetGauge(timer / 100f);
             timer += (100f / 3f) * Time.deltaTime;
             yield return null;
         }
 
         yield return null;
-        mainCircle.ChangeColor(Color.black);
+        var wait = new WaitForSeconds(1f / 60f);
+        isGameActive = true;
+        mainCircle.ChangeColor(Color.white);
         curHp = 100f;
         while (isGameActive)
         {
-            hpCanvas.SetHPGauge(curHp / 100f);
+            if (!mainCircle.isFever)
+                SetGauge(curHp / 100f);
 
             if (getBallSpawnChance())
             {
@@ -81,10 +91,11 @@ public class InGameManager : MonoBehaviour
             }
 
             if (curHp <= 0) break;
-            yield return null;
+            yield return wait;
         }
 
         mainCircle.GameOver();
+        gameoverCanvas.GameOver(score);
         removeAllBalls();
 
         yield break;
@@ -99,7 +110,7 @@ public class InGameManager : MonoBehaviour
         }
         bool getBallSpawnChance()
         {
-            return Random.Range(0f, 100f) <= 0.5f;
+            return Random.Range(0f, 100f) <= 5f;
         }
         bool randBool(List<bool> list)
         {
@@ -160,6 +171,8 @@ public class InGameManager : MonoBehaviour
         result += _blue ? Color.blue : Color.black;
         result += _green ? Color.green : Color.black;
         result.a = 1f;
+
+        if (result == Color.black) return Color.white;
 
         return result;
     }
