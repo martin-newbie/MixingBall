@@ -20,10 +20,9 @@ public class UIManager : MonoBehaviour
     public Text scoreText;
     public Animator scoreTextPop;
 
-    public void ChangeScore(int score)
+    public void ChangeScore(float score)
     {
         scoreText.text = string.Format("{0:#,##0}", score);
-        scoreTextPop.SetTrigger("pop");
     }
 
     public void ChangeRed()

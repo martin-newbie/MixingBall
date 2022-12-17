@@ -20,6 +20,7 @@ public class ClearBallsEffect : MonoBehaviour
         {
             PlayEffect(collision.GetComponent<Ball>());
             Destroy(collision.gameObject);
+            InGameManager.Instance.curHp += 1f;
         }
 
         void PlayEffect(Ball ball)

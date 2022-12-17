@@ -96,12 +96,13 @@ public class MainCircle : MonoBehaviour
                 if (isBarrier)
                 {
                     playIgnoreEffect(collision.GetComponent<Ball>().thisColor);
+                    getHp();
                     return;
                 }
 
                 comboCount = 0;
                 isCombo = false;
-                InGameManager.Instance.curHp -= 1f;
+                getHp();
                 return;
             }
 
@@ -139,9 +140,11 @@ public class MainCircle : MonoBehaviour
         {
             comboCount++;
             isCombo = true;
-
-            InGameManager.Instance.GetScore(5);
             playEffect();
+        }
+        void getHp()
+        {
+            InGameManager.Instance.curHp += InGameManager.Instance.decreasingSpeed / 3f;
         }
     }
 

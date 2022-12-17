@@ -33,7 +33,7 @@ public class InGameManager : MonoBehaviour
 
     public bool isGameActive;
     bool red, blue, green;
-    int score;
+    float score;
 
     float ballDuration = 4f;
 
@@ -50,7 +50,7 @@ public class InGameManager : MonoBehaviour
     {
         return hpCanvas.SetHPGauge(fill, isHp);
     }
-
+    public float decreasingSpeed => (((int)(score / 30f) + 1) * 1f) * Time.deltaTime;
     IEnumerator GameMainLogic()
     {
         red = false;
@@ -68,7 +68,6 @@ public class InGameManager : MonoBehaviour
         }
 
         yield return null;
-        var wait = new WaitForSeconds(1f / 60f);
         isGameActive = true;
         mainCircle.ChangeColor(Color.white);
         curHp = 100f;
@@ -96,8 +95,17 @@ public class InGameManager : MonoBehaviour
                 SpawnBall(combined, (bool)ChooseOne(true, false));
             }
 
+            score += Time.deltaTime;
+
+            if (!mainCircle.isFever)
+                curHp -= decreasingSpeed;
+
+            if (curHp > 100f) curHp = 100f;
+
+            UIManager.Instance.ChangeScore(score);
+
             if (curHp <= 0) break;
-            yield return wait;
+            yield return null;
         }
 
         mainCircle.GameOver();
@@ -116,7 +124,7 @@ public class InGameManager : MonoBehaviour
         }
         bool getBallSpawnChance()
         {
-            return Random.Range(0f, 100f) <= 0.5f;
+            return Random.Range(0f, 100f) <= 3f;
         }
         bool randBool(List<bool> list)
         {
@@ -135,11 +143,6 @@ public class InGameManager : MonoBehaviour
         if (_green) green = !green;
 
         mainCircle.ChangeColor(GetCombinedColor(red, blue, green));
-    }
-    public void GetScore(int increase)
-    {
-        score += increase;
-        UIManager.Instance.ChangeScore(score);
     }
 
     Ball SpawnBall(Color color, bool isHorizontal)
